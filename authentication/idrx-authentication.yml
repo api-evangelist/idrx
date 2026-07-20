@@ -1,0 +1,19 @@
+generated: '2026-07-19'
+method: searched
+source: openapi/idrx-openapi.yml
+docs: https://docs.idrx.co/api/generating-a-signature
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: idrxApiKey
+  type: apiKey
+  in: header
+  parameter: idrx-api-key
+  description: API key issued by IDRX. Each request must also carry `idrx-api-sig` (an HMAC-SHA256
+    signature) and `idrx-api-ts` (Unix ms timestamp), plus a custom `User-Agent`. Signature
+    = HMAC-SHA256(secret, METHOD + ":" + PATH + ":" + SHA256(body) + ":" + timestamp).
+  sources:
+  - openapi/idrx-openapi.yml
