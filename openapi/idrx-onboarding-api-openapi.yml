@@ -1,0 +1,305 @@
+openapi: 3.1.0
+info:
+  title: IDRX Onboarding API
+  version: '1.0'
+  description: IDRX is a stablecoin pegged 1:1 to the Indonesian Rupiah (IDR). This REST API lets business (organization) accounts onboard users, manage bank accounts, and process mint (fiat IDR -> IDRX / USDT on-chain), redeem (IDRX -> fiat IDR to a bank account), and bridge (move IDRX across supported EVM/Solana chains) transactions, plus query rates, fees, bank methods, and transaction history. All requests are authenticated with an API key plus an HMAC-SHA256 request signature. A custom `User-Agent` header is required (generic agents are blocked at the edge with HTTP 403 / Cloudflare 1010).
+  contact:
+    name: IDRX Support
+    email: support@idrx.co
+    url: https://docs.idrx.co
+  x-apievangelist-generated: '2026-07-19'
+  x-apievangelist-method: searched
+  x-apievangelist-source: https://docs.idrx.co/llms.txt
+servers:
+- url: https://idrx.co
+  description: Production
+security:
+- idrxApiKey: []
+tags:
+- name: Onboarding
+  description: Onboard users and manage their bank accounts.
+paths:
+  /api/auth/generate-api-key:
+    post:
+      operationId: generateApiKey
+      tags:
+      - Onboarding
+      summary: Generate an API key
+      description: Issue an API key/secret pair for an account. Store the secret securely; it is used to sign requests.
+      responses:
+        '201':
+          description: API key issued.
+  /api/auth/onboarding:
+    post:
+      operationId: onboardUser
+      tags:
+      - Onboarding
+      summary: Onboard a new user
+      description: Used by an organization to onboard a new user. Accounts registered this way skip part of the KYC process. Accepts `multipart/form-data`.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - email
+              - fullname
+              - address
+              - idNumber
+              - idFile
+              properties:
+                email:
+                  type: string
+                  format: email
+                fullname:
+                  type: string
+                address:
+                  type: string
+                idNumber:
+                  type: string
+                idFile:
+                  type: string
+                  format: binary
+                  description: Image of the user ID (jpeg, png, jpg, webp; 256x256 to 4096x4096).
+      responses:
+        '201':
+          description: User onboarded.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 201
+                  message:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      fullname:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+                      apiKey:
+                        type: string
+                      apiSecret:
+                        type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /api/auth/members:
+    get:
+      operationId: getMembers
+      tags:
+      - Onboarding
+      summary: Get members
+      description: Get info about the members registered under the organization account.
+      responses:
+        '200':
+          description: Member list.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        email:
+                          type: string
+                          format: email
+                        createdAt:
+                          type: string
+                          format: date-time
+                        fullname:
+                          type: string
+                        ApiKeys:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              apiKey:
+                                type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/auth/add-bank-account:
+    post:
+      operationId: addBankAccount
+      tags:
+      - Onboarding
+      summary: Add a bank account
+      description: Add a new bank account. A deposit wallet address associated with the bank account is also created; users can send IDRX to that address to redeem to the bank account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - bankAccountNumber
+              - bankCode
+              properties:
+                bankAccountNumber:
+                  type: string
+                bankCode:
+                  type: string
+                  description: Bank code from GET /api/transaction/method.
+      responses:
+        '201':
+          description: Bank account added.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccountEnvelope'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/auth/get-bank-accounts:
+    get:
+      operationId: getBankAccounts
+      tags:
+      - Onboarding
+      summary: Get bank accounts
+      description: List the bank accounts registered under the account.
+      responses:
+        '200':
+          description: Bank account list.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BankAccount'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/auth/delete-bank-account/{bankId}:
+    delete:
+      operationId: deleteBankAccount
+      tags:
+      - Onboarding
+      summary: Delete a bank account
+      parameters:
+      - name: bankId
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Bank account deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: deleted
+                  data:
+                    type: 'null'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Forbidden:
+      description: Blocked User-Agent — set a custom User-Agent like my-app/1.0 (Cloudflare 1010).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Bad signature or timestamp drift — recompute signature and sync clock (NTP).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid parameter — check param types and limits.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    BankAccount:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        bankAccountNumber:
+          type: string
+        bankAccountName:
+          type: string
+        bankAccountNumberHash:
+          type:
+          - string
+          - 'null'
+        bankCode:
+          type: string
+        bankName:
+          type: string
+        maxAmountTransfer:
+          type: string
+        deleted:
+          type: boolean
+        DepositWalletAddress:
+          type: object
+          properties:
+            walletAddress:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+    BankAccountEnvelope:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/BankAccount'
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+        data:
+          type: 'null'
+  securitySchemes:
+    idrxApiKey:
+      type: apiKey
+      in: header
+      name: idrx-api-key
+      description: API key issued by IDRX. Each request must also carry `idrx-api-sig` (an HMAC-SHA256 signature) and `idrx-api-ts` (Unix ms timestamp), plus a custom `User-Agent`. Signature = HMAC-SHA256(secret, METHOD + ":" + PATH + ":" + SHA256(body) + ":" + timestamp).

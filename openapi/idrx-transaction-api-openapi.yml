@@ -1,0 +1,515 @@
+openapi: 3.1.0
+info:
+  title: IDRX Onboarding Transaction API
+  version: '1.0'
+  description: IDRX is a stablecoin pegged 1:1 to the Indonesian Rupiah (IDR). This REST API lets business (organization) accounts onboard users, manage bank accounts, and process mint (fiat IDR -> IDRX / USDT on-chain), redeem (IDRX -> fiat IDR to a bank account), and bridge (move IDRX across supported EVM/Solana chains) transactions, plus query rates, fees, bank methods, and transaction history. All requests are authenticated with an API key plus an HMAC-SHA256 request signature. A custom `User-Agent` header is required (generic agents are blocked at the edge with HTTP 403 / Cloudflare 1010).
+  contact:
+    name: IDRX Support
+    email: support@idrx.co
+    url: https://docs.idrx.co
+  x-apievangelist-generated: '2026-07-19'
+  x-apievangelist-method: searched
+  x-apievangelist-source: https://docs.idrx.co/llms.txt
+servers:
+- url: https://idrx.co
+  description: Production
+security:
+- idrxApiKey: []
+tags:
+- name: Transaction
+  description: Mint, redeem, and bridge IDRX, and query rates/fees/history.
+paths:
+  /api/transaction/mint-request:
+    post:
+      operationId: createMintRequest
+      tags:
+      - Transaction
+      summary: Create a mint request
+      description: Request an IDRX (or USDT) mint on a supported chain, paid with fiat IDR. Returns a hosted-checkout `paymentUrl` to redirect the user to. Min 20,000 IDR / 2 USD; max 1,000,000,000 IDR / 5,555 USD. Confirm settlement via the callback or Transaction History (do not trust the returnUrl redirect).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - toBeMinted
+              - destinationWalletAddress
+              - networkChainId
+              - returnUrl
+              properties:
+                toBeMinted:
+                  type: string
+                  description: Amount to mint.
+                destinationWalletAddress:
+                  type: string
+                networkChainId:
+                  type: string
+                  description: Target EVM/Solana chain ID.
+                returnUrl:
+                  type: string
+                  format: uri
+                requestType:
+                  type: string
+                  enum:
+                  - idrx
+                  - usdt
+                  default: idrx
+                expiryPeriod:
+                  type: integer
+                  default: 120
+                  description: Payment window in minutes.
+                productDetails:
+                  type: string
+                  maxLength: 255
+                customerDetail:
+                  type: object
+                  properties:
+                    firstName:
+                      type: string
+                      maxLength: 50
+                    lastName:
+                      type: string
+                      maxLength: 50
+                    email:
+                      type: string
+                      format: email
+      responses:
+        '200':
+          description: Mint request created; redirect user to paymentUrl.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      merchantOrderId:
+                        type: string
+                      merchantCode:
+                        type: string
+                      reference:
+                        type: string
+                      paymentUrl:
+                        type: string
+                        format: uri
+                      amount:
+                        type: string
+                        description: Amount after fees the user pays.
+                      statusCode:
+                        type: string
+                      statusMessage:
+                        type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/Unprocessable'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /api/transaction/redeem-request:
+    post:
+      operationId: createRedeemRequest
+      tags:
+      - Transaction
+      summary: Create a redeem request
+      description: Redeem IDRX back to fiat IDR to a bank account, referencing the on-chain burn transaction hash. Funds credited within max 24 hours.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - txHash
+              - networkChainId
+              - amountTransfer
+              - bankAccount
+              - bankCode
+              - bankName
+              - bankAccountName
+              - walletAddress
+              properties:
+                txHash:
+                  type: string
+                  description: Hash of the token burn transaction.
+                networkChainId:
+                  type: string
+                amountTransfer:
+                  type: string
+                bankAccount:
+                  type: string
+                bankCode:
+                  type: string
+                bankName:
+                  type: string
+                bankAccountName:
+                  type: string
+                walletAddress:
+                  type: string
+                notes:
+                  type: string
+      responses:
+        '200':
+          description: Redeem request created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                  message:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/RedeemRequest'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/transaction/bridge-request:
+    post:
+      operationId: createBridgeRequest
+      tags:
+      - Transaction
+      summary: Create a bridge request
+      description: Bridge IDRX from a source chain to a destination chain, referencing the burn tx hash and bridge nonce. Min 20,000 IDR.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - txHashBurn
+              - bridgeToChainId
+              - bridgeFromChainId
+              - amount
+              - bridgeNonce
+              - destinationWalletAddress
+              properties:
+                txHashBurn:
+                  type: string
+                bridgeToChainId:
+                  type: integer
+                bridgeFromChainId:
+                  type: integer
+                amount:
+                  type: string
+                bridgeNonce:
+                  type: string
+                destinationWalletAddress:
+                  type: string
+      responses:
+        '201':
+          description: Bridge request created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                  message:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/BridgeRequest'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/transaction/method:
+    get:
+      operationId: getBankMethods
+      tags:
+      - Transaction
+      summary: Get bank methods
+      description: Get the list of supported bank names, bank codes, and max transfer amounts.
+      responses:
+        '200':
+          description: Bank method list.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        bankCode:
+                          type: string
+                        bankName:
+                          type: string
+                        maxAmountTransfer:
+                          type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/transaction/user-transaction-history:
+    get:
+      operationId: getTransactionHistory
+      tags:
+      - Transaction
+      summary: Get transaction history
+      description: List the account's mint/redeem/bridge transaction history. Poll by merchantOrderId to reconcile terminal states.
+      responses:
+        '200':
+          description: Transaction history.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/transaction/rates:
+    get:
+      operationId: getRates
+      tags:
+      - Transaction
+      summary: Get swap rates
+      description: Get current swap rates of IDRX to other tokens. Provide either idrxAmount or usdtAmount. chainId defaults to 137 (Polygon).
+      parameters:
+      - name: idrxAmount
+        in: query
+        schema:
+          type: string
+        description: IDRX amount to sell (provide this or usdtAmount).
+      - name: usdtAmount
+        in: query
+        schema:
+          type: string
+        description: USDT/USDC amount to sell (provide this or idrxAmount).
+      - name: chainId
+        in: query
+        schema:
+          type: string
+          default: '137'
+      responses:
+        '200':
+          description: Rate quote.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      price:
+                        type: string
+                      buyAmount:
+                        type: string
+                      chainId:
+                        type: integer
+                      quote:
+                        type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/transaction/get-additional-fees:
+    get:
+      operationId: getAdditionalFees
+      tags:
+      - Transaction
+      summary: Get additional fees
+      description: Get additional fees for a transaction type (MINT, REDEEM, REFUND) on a chain.
+      parameters:
+      - name: feeType
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - MINT
+          - REDEEM
+          - REFUND
+      - name: chainId
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Additional fee list.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        amount:
+                          type: string
+                        isActive:
+                          type: boolean
+                        deleted:
+                          type: boolean
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Forbidden:
+      description: Blocked User-Agent — set a custom User-Agent like my-app/1.0 (Cloudflare 1010).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Bad signature or timestamp drift — recompute signature and sync clock (NTP).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Rate limit — back off and retry.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid parameter — check param types and limits.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unprocessable:
+      description: Unsupported channelId for merchant — contact support@idrx.co to enable.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    RedeemRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        chainId:
+          type: integer
+        userId:
+          type: integer
+        requester:
+          type: string
+        txHash:
+          type: string
+        fromAddress:
+          type: string
+        amount:
+          type: string
+        bankName:
+          type: string
+        bankCode:
+          type: string
+        bankAccountNumber:
+          type: string
+        bankAccountName:
+          type: string
+        custRefNumber:
+          type: string
+        disburseId:
+          type: integer
+        burnStatus:
+          type: string
+          enum:
+          - REQUESTED
+          - PROCESSING
+          - PROCESSED
+          - REJECTED
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        deleted:
+          type: boolean
+    BridgeRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        bridgeFromChainId:
+          type: integer
+        bridgeToChainId:
+          type: integer
+        txHashBurn:
+          type: string
+        txHashMint:
+          type:
+          - string
+          - 'null'
+        qredoTxId:
+          type:
+          - string
+          - 'null'
+        signedTx:
+          type:
+          - string
+          - 'null'
+        bridgeNonce:
+          type: string
+        amount:
+          type: string
+        bridgeStatus:
+          type: string
+          enum:
+          - REQUESTED
+          - PROCESSING
+          - PROCESSED
+          - REJECTED
+        deleted:
+          type: boolean
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+        data:
+          type: 'null'
+  securitySchemes:
+    idrxApiKey:
+      type: apiKey
+      in: header
+      name: idrx-api-key
+      description: API key issued by IDRX. Each request must also carry `idrx-api-sig` (an HMAC-SHA256 signature) and `idrx-api-ts` (Unix ms timestamp), plus a custom `User-Agent`. Signature = HMAC-SHA256(secret, METHOD + ":" + PATH + ":" + SHA256(body) + ":" + timestamp).
