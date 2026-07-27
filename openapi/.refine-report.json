@@ -1,0 +1,16 @@
+{
+  "provider": "idrx",
+  "sources": [
+    "idrx-onboarding-api-openapi.yml",
+    "idrx-transaction-api-openapi.yml"
+  ],
+  "outputs": [
+    "idrx-onboarding-api-openapi.yml",
+    "idrx-transaction-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

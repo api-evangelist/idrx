@@ -1,0 +1,51 @@
+generated: '2026-07-19'
+method: derived
+status: candidate
+source: openapi/idrx-openapi.yml
+server:
+  name: idrx
+  transport: http
+  url: null
+notes: >-
+  No official hosted/remote MCP server was found for IDRX. This is a candidate
+  tool list derived one-per-operation from the OpenAPI, for forging an MCP server.
+tools:
+  - name: generate_api_key
+    description: Issue an API key/secret pair for an account.
+    source_operation: openapi/idrx-openapi.yml#generateApiKey
+  - name: onboard_user
+    description: Onboard a new user under the organization account.
+    source_operation: openapi/idrx-openapi.yml#onboardUser
+  - name: get_members
+    description: Get members registered under the organization account.
+    source_operation: openapi/idrx-openapi.yml#getMembers
+  - name: add_bank_account
+    description: Add a bank account and create its deposit wallet address.
+    source_operation: openapi/idrx-openapi.yml#addBankAccount
+  - name: get_bank_accounts
+    description: List registered bank accounts.
+    source_operation: openapi/idrx-openapi.yml#getBankAccounts
+  - name: delete_bank_account
+    description: Delete a bank account by id.
+    source_operation: openapi/idrx-openapi.yml#deleteBankAccount
+  - name: create_mint_request
+    description: Create an IDRX/USDT mint request with hosted checkout.
+    source_operation: openapi/idrx-openapi.yml#createMintRequest
+  - name: create_redeem_request
+    description: Redeem IDRX to fiat IDR to a bank account.
+    source_operation: openapi/idrx-openapi.yml#createRedeemRequest
+  - name: create_bridge_request
+    description: Bridge IDRX across supported chains.
+    source_operation: openapi/idrx-openapi.yml#createBridgeRequest
+  - name: get_bank_methods
+    description: List supported banks, codes, and max transfer amounts.
+    source_operation: openapi/idrx-openapi.yml#getBankMethods
+  - name: get_transaction_history
+    description: List mint/redeem/bridge transaction history.
+    source_operation: openapi/idrx-openapi.yml#getTransactionHistory
+  - name: get_rates
+    description: Get current swap rates of IDRX to other tokens.
+    source_operation: openapi/idrx-openapi.yml#getRates
+  - name: get_additional_fees
+    description: Get additional fees for a transaction type on a chain.
+    source_operation: openapi/idrx-openapi.yml#getAdditionalFees

@@ -1,0 +1,20 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for IDRX API
+  version: 1.0.0
+extends: openapi/idrx-openapi.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-rating: 3
+      x-apievangelist-notes: >-
+        Rich transactional stablecoin API (mint/redeem/bridge) with HMAC request
+        signing and unsigned single-delivery webhooks. Gaps: no published OpenAPI
+        of record, no idempotency contract, no RFC 9457 errors, no status page.
+  - target: $.info
+    update:
+      x-agentic-access: agentic-access/idrx-agentic-access.yml
+  - target: $.components.securitySchemes.idrxApiKey
+    update:
+      x-signature-headers: [idrx-api-sig, idrx-api-ts]
+      x-user-agent-required: true

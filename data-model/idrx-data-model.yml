@@ -1,0 +1,65 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/idrx-openapi.yml
+entities:
+  - name: Member
+    description: A user onboarded under an organization account.
+    key: id
+    fields: [id, email, fullname, createdAt, ApiKeys]
+  - name: ApiKey
+    description: API key/secret pair issued to an account, used to sign requests.
+    fields: [apiKey, apiSecret]
+  - name: BankAccount
+    description: A bank account registered to a user; each has an associated deposit wallet address for redeems.
+    key: id
+    fields: [id, userId, bankAccountNumber, bankAccountName, bankCode, bankName, maxAmountTransfer, deleted, DepositWalletAddress]
+  - name: DepositWalletAddress
+    description: On-chain address tied to a bank account; IDRX sent here is redeemed to the bank account.
+    fields: [walletAddress, createdAt]
+  - name: BankMethod
+    description: A supported bank (code, name, max transfer) for redeems.
+    fields: [bankCode, bankName, maxAmountTransfer]
+  - name: MintRequest
+    description: A fiat-IDR -> IDRX/USDT mint with a hosted checkout.
+    key: id
+    fields: [id, merchantOrderId, merchantCode, reference, paymentUrl, amount, toBeMinted, destinationWalletAddress, chainId, paymentStatus, userMintStatus, adminMintStatus, txHash, requestType]
+  - name: RedeemRequest
+    description: An IDRX -> fiat-IDR redemption to a bank account, referencing a burn tx hash.
+    key: id
+    fields: [id, chainId, userId, txHash, amount, bankName, bankCode, bankAccountNumber, bankAccountName, custRefNumber, disburseId, burnStatus]
+  - name: BridgeRequest
+    description: A cross-chain IDRX bridge referencing a burn tx and bridge nonce.
+    key: id
+    fields: [id, userId, bridgeFromChainId, bridgeToChainId, txHashBurn, txHashMint, bridgeNonce, amount, bridgeStatus]
+  - name: TransactionFee
+    description: An additional fee row applied to a transaction type (MINT/REDEEM/REFUND).
+    fields: [id, name, amount, isActive, deleted]
+relationships:
+  - from: Member
+    to: ApiKey
+    type: has_many
+    via: ApiKeys
+  - from: Member
+    to: BankAccount
+    type: has_many
+    via: userId
+  - from: BankAccount
+    to: DepositWalletAddress
+    type: has_one
+    via: DepositWalletAddress
+  - from: RedeemRequest
+    to: BankAccount
+    type: belongs_to
+    via: bankAccountNumber
+  - from: RedeemRequest
+    to: BankMethod
+    type: belongs_to
+    via: bankCode
+  - from: MintRequest
+    to: Member
+    type: belongs_to
+    via: userId
+notes: >-
+  IDs across mint/redeem/bridge transactions are correlated to the caller's own
+  merchantOrderId for reconciliation via the Transaction History endpoint. Chains
+  are identified by numeric EVM/Solana chainId (e.g. 137 Polygon, 8453 Base, 56 BSC).

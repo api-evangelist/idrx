@@ -1,0 +1,43 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.idrx.co/api/generating-a-signature
+docs: https://docs.idrx.co/api/getting-started
+authentication:
+  style: api-key + HMAC signature
+  headers:
+    api_key: idrx-api-key
+    signature: idrx-api-sig
+    timestamp: idrx-api-ts
+  signature:
+    algorithm: HMAC-SHA256
+    formula: 'HMAC-SHA256(secret, METHOD + ":" + PATH + ":" + SHA256(body) + ":" + timestamp)'
+    body_hash: SHA256 of the JSON body; use SHA256("") for GET requests with no body
+    secret_encoding: base64 (decode the secret before signing)
+    output_encoding: base64url
+    timestamp_unit: unix-milliseconds
+  ref: authentication/idrx-authentication.yml
+user_agent:
+  required: true
+  note: A custom User-Agent (e.g. my-app/1.0) is required. Generic agents (curl, Python-urllib, generic SDK strings) are blocked at the edge with HTTP 403 (Cloudflare error 1010).
+idempotency:
+  supported: false
+  note: No idempotency-key header/parameter is documented. Callers reconcile duplicate/failed submissions by polling Transaction History by merchantOrderId; do not create a new order on 5xx, recover the payload instead.
+pagination:
+  supported: false
+  note: List endpoints (members, bank accounts, transaction history) return a data array with no documented cursor/offset paging parameters.
+error_envelope:
+  shape: '{ statusCode, message, data }'
+  format: custom-json
+  note: Not RFC 9457 problem+json. HTTP status mirrors statusCode. See errors/idrx-problem-types.yml.
+  ref: errors/idrx-problem-types.yml
+rate_limiting:
+  signaled: true
+  note: HTTP 429 is returned on rate limit; back off and retry. No documented rate-limit response headers.
+versioning:
+  scheme: none-explicit
+  note: Endpoints are served under the /api path with no version segment or version header documented.
+  ref: lifecycle/idrx-lifecycle.yml
+webhooks:
+  supported: true
+  note: Mint and Redeem callbacks are configured in the dashboard (Callback URL tab). Delivered once, not retried, unsigned. Reconcile by merchantOrderId. See asyncapi/idrx-callback-webhooks.yml.
+  ref: asyncapi/idrx-callback-webhooks.yml

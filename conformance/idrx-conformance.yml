@@ -1,0 +1,31 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/idrx-openapi.yml
+standards:
+  - id: oauth2
+    conforms: false
+    evidence: Auth is API key + HMAC-SHA256 request signature, not OAuth2.
+  - id: oidc
+    conforms: false
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: Errors use a custom { statusCode, message, data } envelope, not application/problem+json.
+  - id: hmac-request-signing
+    conforms: true
+    evidence: Every request carries idrx-api-sig, an HMAC-SHA256 signature over method:path:sha256(body):timestamp.
+  - id: webhooks
+    conforms: true
+    evidence: Mint and redeem callbacks are documented (unsigned, single-delivery). See asyncapi/idrx-callback-webhooks.yml.
+  - id: json:api
+    conforms: false
+  - id: idempotency
+    conforms: false
+    evidence: No idempotency-key contract documented.
+  - id: pagination
+    conforms: false
+    evidence: List endpoints return a plain data array with no documented paging params.
+notes: >-
+  Derived from the OpenAPI and docs. IDRX is a KYC/AML-regulated Indonesian
+  Rupiah stablecoin issuer; onboarding enforces identity verification (KYC), but
+  no third-party security-compliance certifications (SOC 2, ISO 27001, etc.) were
+  found published, so no Compliance pointer is emitted.

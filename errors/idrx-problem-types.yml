@@ -1,0 +1,38 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.idrx.co/api/transaction-api/post-api-transaction-mint-request
+format: custom-json
+envelope:
+  shape: '{ statusCode, message, data }'
+  note: Not RFC 9457. The HTTP status code is mirrored in the statusCode field; message carries the human-readable reason; data is null on error.
+problems:
+  - status: 400
+    title: Invalid parameter
+    cause: Parameter type or value out of range/limits.
+    remediation: Check param types and documented min/max limits.
+    source_operation: openapi/idrx-openapi.yml#createMintRequest
+  - status: 401
+    title: Unauthorized
+    cause: Bad signature or timestamp drift.
+    remediation: Recompute the HMAC-SHA256 signature; sync the server clock via NTP.
+    source_operation: openapi/idrx-openapi.yml#createMintRequest
+  - status: 403
+    title: Blocked User-Agent
+    cause: Generic or missing User-Agent blocked at the edge (Cloudflare error 1010).
+    remediation: Set a custom User-Agent like my-app/1.0.
+    source_operation: openapi/idrx-openapi.yml#createMintRequest
+  - status: 422
+    title: Unsupported channel for merchant
+    cause: The requested channelId is not enabled for the merchant.
+    remediation: Contact support@idrx.co to enable the channel.
+    source_operation: openapi/idrx-openapi.yml#createMintRequest
+  - status: 429
+    title: Rate limited
+    cause: Too many requests.
+    remediation: Back off and retry with exponential backoff.
+    source_operation: openapi/idrx-openapi.yml#createMintRequest
+  - status: 500
+    title: Server error
+    cause: Internal server error.
+    remediation: Retry with backoff. Do not create a new order; recover the payload instead and reconcile via Transaction History.
+    source_operation: openapi/idrx-openapi.yml#createMintRequest

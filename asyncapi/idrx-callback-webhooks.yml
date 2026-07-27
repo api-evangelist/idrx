@@ -1,0 +1,27 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.idrx.co/api/callback
+spec_type: Webhooks
+delivery:
+  signed: false
+  retries: none
+  guarantee: one callback per terminal state; not retried if endpoint unreachable
+  content_type: application/json
+  reconcile_by: merchantOrderId (re-verify via Transaction History before crediting)
+  configuration: Set Mint and Redeem Callback URLs in the dashboard API Key > Callback URL tab. A single endpoint may serve both.
+events:
+  - name: mint.completed
+    trigger: adminMintStatus transitions to MINTED
+    flavours:
+      - idrx: requestType empty or "idrx" (fires after IDRX minted on-chain)
+      - usdt: requestType "usdt" (fires after IDRX->USDT swap and USDT transfer succeed)
+    payload_ref: openapi/idrx-openapi.yml#/components/schemas/MintCallback
+    key_fields: [id, merchantOrderId, paymentStatus, userMintStatus, adminMintStatus, toBeMinted, destinationWalletAddress, chainId, txHash, requestType, MintRequestTransactionFees, usdtRequest]
+  - name: redeem.completed
+    trigger: redeem transaction reaches a terminal state
+    reconcile_by: merchantOrderId
+notes: >-
+  Webhooks are outbound callbacks (no AsyncAPI document is published). Treat the
+  callback body as untrusted; always re-fetch the transaction via Transaction
+  History and stop on a terminal state. Missed deliveries are recovered by
+  polling Transaction History by merchantOrderId.

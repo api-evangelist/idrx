@@ -1,0 +1,19 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/idrx-openapi.yml
+versioning:
+  scheme: none-explicit
+  current: null
+  docs: https://docs.idrx.co/api/getting-started
+  note: Endpoints served under /api with no version segment or version header documented.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No deprecation policy or Sunset/Deprecation header support found in the docs.
+sla:
+  url: null
+status_page: null
+deprecated_operations: []
+notes: >-
+  No public status page, SLA, or deprecation policy was found. This file records
+  the absence honestly; no StatusPage or Deprecation pointer is emitted.

@@ -1,0 +1,16 @@
+generated: '2026-07-19'
+method: generated
+source: openapi/idrx-openapi.yml
+skills:
+  - file: idrx-mint.md
+    name: Mint IDRX with hosted checkout
+    api: openapi/idrx-openapi.yml
+    operations: [createMintRequest, getTransactionHistory]
+  - file: idrx-redeem.md
+    name: Redeem IDRX to a bank account
+    api: openapi/idrx-openapi.yml
+    operations: [getBankMethods, createRedeemRequest, getTransactionHistory]
+  - file: idrx-onboard.md
+    name: Onboard a user and register a bank account
+    api: openapi/idrx-openapi.yml
+    operations: [onboardUser, addBankAccount, getBankAccounts, getMembers]

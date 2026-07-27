@@ -1,22 +1,120 @@
 aid: idrx
-name: IDRx
-description: IDRx is a company surfaced as a portfolio company of a16z and added to the API Evangelist
-  network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/idrx.png
+name: IDRX
+description: >-
+  IDRX is a stablecoin pegged 1:1 to the Indonesian Rupiah (IDR), issued by a
+  regulated Indonesian entity and available across multiple EVM chains and Solana.
+  Its REST API lets business (organization) accounts onboard KYC-verified users,
+  register bank accounts, and process mint (fiat IDR -> IDRX / USDT on-chain),
+  redeem (IDRX -> fiat IDR to a bank account), and bridge (cross-chain) transactions,
+  plus query swap rates, fees, supported bank methods, and transaction history.
+  Requests are authenticated with an API key and an HMAC-SHA256 request signature,
+  and settlement is confirmed via single-delivery webhooks or transaction-history
+  polling. IDRX is a portfolio company of a16z (crypto).
 url: https://raw.githubusercontent.com/api-evangelist/idrx/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - a16z
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: profile
+x-tier-reason: enriched
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
 tags:
-- Company
-apis: []
+- Stablecoin
+- Cryptocurrency
+- Payments
+- Blockchain
+- Fintech
+- Indonesia
+- Rupiah
+- Web3
+- On-Ramp
+- Digital Currency
+apis:
+- aid: idrx:idrx-onboarding-api
+  name: IDRX Onboarding API
+  description: Onboard users and manage their bank accounts.
+  humanURL: https://docs.idrx.co/api/getting-started
+  baseURL: https://idrx.co/api
+  tags:
+  - Onboarding
+  properties:
+  - type: OpenAPI
+    url: openapi/idrx-onboarding-api-openapi.yml
+- aid: idrx:idrx-transaction-api
+  name: IDRX Transaction API
+  description: Mint, redeem, and bridge IDRX, and query rates/fees/history.
+  humanURL: https://docs.idrx.co/api/getting-started
+  baseURL: https://idrx.co/api
+  tags:
+  - Transaction
+  properties:
+  - type: OpenAPI
+    url: openapi/idrx-transaction-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+common:
+- type: DeveloperPortal
+  url: https://docs.idrx.co
+- type: Documentation
+  url: https://docs.idrx.co
+- type: APIReference
+  url: https://docs.idrx.co/api/getting-started
+- type: GettingStarted
+  url: https://docs.idrx.co/api/getting-started
+- type: SignUp
+  url: https://app.idrx.co
+- type: Pricing
+  url: https://docs.idrx.co/services/fees
+- type: Support
+  url: mailto:support@idrx.co
+- type: GitHubOrganization
+  url: https://github.com/idrx-co
+- type: Whitepaper
+  url: https://docs.idrx.co/introduction/idrx-whitepaper
+- type: Authentication
+  url: authentication/idrx-authentication.yml
+- type: Conventions
+  url: conventions/idrx-conventions.yml
+- type: ErrorCatalog
+  url: errors/idrx-problem-types.yml
+- type: DataModel
+  url: data-model/idrx-data-model.yml
+- type: Conformance
+  url: conformance/idrx-conformance.yml
+- type: Lifecycle
+  url: lifecycle/idrx-lifecycle.yml
+- type: Webhooks
+  url: asyncapi/idrx-callback-webhooks.yml
+- type: MCPServer
+  url: mcp/idrx-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: AgenticAccess
+  url: agentic-access/idrx-agentic-access.yml
+- type: DomainSecurity
+  url: security/idrx-domain-security.yml
+- type: LLMsTxt
+  url: llms/idrx-llms.txt
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

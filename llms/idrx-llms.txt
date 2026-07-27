@@ -1,0 +1,40 @@
+# IDRX Documentation
+
+## IDRX Documentation
+
+- [IDRX Whitepaper](https://docs.idrx.co/introduction/idrx-whitepaper.md)
+- [Supported Chain and Contract Address](https://docs.idrx.co/introduction/supported-chain-and-contract-address.md)
+- [Create Account](https://docs.idrx.co/idrx-account/create-account.md): New to IDRX? Create an account now
+- [Sign In](https://docs.idrx.co/idrx-account/sign-in.md): Login with your account to use IDRX
+- [Forgot Password](https://docs.idrx.co/idrx-account/forgot-password.md): Reset your password if you forget
+- [Account Verification (KYC)](https://docs.idrx.co/idrx-account/account-verification-kyc.md): Verify your account to unlock all features
+- [Business Account](https://docs.idrx.co/idrx-account/business-account.md)
+- [Mint IDRX](https://docs.idrx.co/services/mint-idrx.md): Mint new IDRX through IDR bank payments
+- [Redeem IDR](https://docs.idrx.co/services/redeem-idr.md): Redeem your IDRX to IDR
+- [Send IDRX](https://docs.idrx.co/services/send-idrx.md): Send IDRX to other blockchains
+- [Fees](https://docs.idrx.co/services/fees.md): Table of fee structure
+- [Getting Started](https://docs.idrx.co/api/getting-started.md): Read and follow this guide to get access to IDRX's APIs
+- [Generating a Signature](https://docs.idrx.co/api/generating-a-signature.md): Follow the tutorial to be able to use your API Key
+- [Onboarding API](https://docs.idrx.co/api/onboarding-api.md): API endpoint list for the purpose of onboarding new users.
+- [POST /api/auth/onboarding](https://docs.idrx.co/api/onboarding-api/post-api-auth-onboarding.md): Use this API to onboard a new user.
+- [GET /api/auth/members](https://docs.idrx.co/api/onboarding-api/get-api-auth-members.md): Use this api to get members info.
+- [POST /api/auth/add-bank-account](https://docs.idrx.co/api/onboarding-api/post-api-auth-add-bank-account.md): Use this API to add bank accounts.
+- [GET /api/auth/get-bank-accounts](https://docs.idrx.co/api/onboarding-api/get-api-auth-get-bank-accounts.md): Use this API to get bank accounts.
+- [DELETE /api/auth/delete-bank-account/:bankId](https://docs.idrx.co/api/onboarding-api/delete-api-auth-delete-bank-account-bankid.md): Use this api to delete bank accounts.
+- [Transaction API](https://docs.idrx.co/api/transaction-api.md): API endpoint list for the purpose of making transactions.
+- [POST /api/transaction/mint-request](https://docs.idrx.co/api/transaction-api/post-api-transaction-mint-request.md): Use this API to request a IDRX minting transaction in one of our supported chains.
+- [POST /api/transaction/redeem-request](https://docs.idrx.co/api/transaction-api/post-api-transaction-redeem-request.md): Use this API to request a IDRX redeem transaction.
+- [POST /api/transaction/bridge-request](https://docs.idrx.co/api/transaction-api/post-api-transaction-bridge-request.md): Use this API to request a IDRX bridge transaction.
+- [GET /api/transaction/method](https://docs.idrx.co/api/transaction-api/get-api-transaction-method.md): Use this API to obtain the list of appropriate bank name format and bank codes.
+- [GET /api/transaction/user-transaction-history](https://docs.idrx.co/api/transaction-api/get-api-transaction-user-transaction-history.md): Use this API to obtain a list of your transaction history.
+- [GET /api/transaction/rates](https://docs.idrx.co/api/transaction-api/get-api-transaction-rates.md): Get current swap rates of IDRX to other tokens.
+- [GET /api/transaction/get-additional-fees](https://docs.idrx.co/api/transaction-api/get-api-transaction-get-additional-fees.md): Get additional fees of different transaction types.
+- [Callback](https://docs.idrx.co/api/callback.md): Get notified when there is an update for transactions
+- [Overview](https://docs.idrx.co/integration/overview.md)
+- [Onboarding a new user](https://docs.idrx.co/integration/onboarding-a-new-user.md): A typical flow to onboard new users
+- [Managing bank accounts](https://docs.idrx.co/integration/managing-bank-accounts.md): List, add and delete bank accounts.
+- [Processing Mint IDRX Requests](https://docs.idrx.co/integration/processing-mint-idrx-requests.md): The typical flow to process mint requests from your user
+- [Getting other stablecoins](https://docs.idrx.co/integration/processing-mint-idrx-requests/getting-other-stablecoins.md): A brief explanation on minting IDRX to get other tokens.
+- [Processing Redeem IDRX Requests](https://docs.idrx.co/integration/processing-redeem-idrx-requests.md): The typical flow to process redeem requests from your user
+- [Redeeming from other stablecoins](https://docs.idrx.co/integration/processing-redeem-idrx-requests/redeeming-from-other-stablecoins.md): Redeem IDR to a bank account from other tokens.
+- [Processing Bridge IDRX Request](https://docs.idrx.co/integration/processing-bridge-idrx-request.md): The typical flow to process bridge requests from your user
