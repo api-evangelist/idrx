@@ -1,0 +1,1417 @@
+{
+  "item": [
+    {
+      "id": "c68f31cb-fc2a-40a0-be6e-44b47555db7f",
+      "name": "Transaction",
+      "description": {
+        "content": "Mint, redeem, and bridge IDRX, and query rates/fees/history.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a2576c91-50a4-4c7f-81fe-57dbf5c30d6d",
+          "name": "Create a mint request",
+          "request": {
+            "name": "Create a mint request",
+            "description": {
+              "content": "Request an IDRX (or USDT) mint on a supported chain, paid with fiat IDR. Returns a hosted-checkout `paymentUrl` to redirect the user to. Min 20,000 IDR / 2 USD; max 1,000,000,000 IDR / 5,555 USD. Confirm settlement via the callback or Transaction History (do not trust the returnUrl redirect).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "transaction",
+                "mint-request"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"toBeMinted\": \"<string>\",\n  \"destinationWalletAddress\": \"<string>\",\n  \"networkChainId\": \"<string>\",\n  \"returnUrl\": \"<uri>\",\n  \"requestType\": \"idrx\",\n  \"expiryPeriod\": 120,\n  \"productDetails\": \"<string>\",\n  \"customerDetail\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"email\": \"<email>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2f4c6ea8-a507-4f42-aaa4-8bde361db9ef",
+              "name": "Mint request created; redirect user to paymentUrl.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "mint-request"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"toBeMinted\": \"<string>\",\n  \"destinationWalletAddress\": \"<string>\",\n  \"networkChainId\": \"<string>\",\n  \"returnUrl\": \"<uri>\",\n  \"requestType\": \"idrx\",\n  \"expiryPeriod\": 120,\n  \"productDetails\": \"<string>\",\n  \"customerDetail\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"email\": \"<email>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 2129,\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": \"string\",\n    \"merchantOrderId\": \"string\",\n    \"merchantCode\": \"string\",\n    \"reference\": \"string\",\n    \"paymentUrl\": \"https://gEr.iytoZ3lpnJkZ1yx0B7L4D3J3DLXp0y8Dy,Z.Tbcv\",\n    \"amount\": \"string\",\n    \"statusCode\": \"string\",\n    \"statusMessage\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3524d6f9-080b-45b0-a04a-04ebac326b7d",
+              "name": "Invalid parameter — check param types and limits.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "mint-request"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"toBeMinted\": \"<string>\",\n  \"destinationWalletAddress\": \"<string>\",\n  \"networkChainId\": \"<string>\",\n  \"returnUrl\": \"<uri>\",\n  \"requestType\": \"idrx\",\n  \"expiryPeriod\": 120,\n  \"productDetails\": \"<string>\",\n  \"customerDetail\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"email\": \"<email>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 8533,\n  \"message\": \"string\",\n  \"data\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "264982ef-a621-47bc-8af6-7b7b04b6b6a9",
+              "name": "Bad signature or timestamp drift — recompute signature and sync clock (NTP).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "mint-request"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"toBeMinted\": \"<string>\",\n  \"destinationWalletAddress\": \"<string>\",\n  \"networkChainId\": \"<string>\",\n  \"returnUrl\": \"<uri>\",\n  \"requestType\": \"idrx\",\n  \"expiryPeriod\": 120,\n  \"productDetails\": \"<string>\",\n  \"customerDetail\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"email\": \"<email>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 8533,\n  \"message\": \"string\",\n  \"data\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e74b2bad-af53-4d8c-a967-b48fd886dc91",
+              "name": "Blocked User-Agent — set a custom User-Agent like my-app/1.0 (Cloudflare 1010).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "mint-request"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"toBeMinted\": \"<string>\",\n  \"destinationWalletAddress\": \"<string>\",\n  \"networkChainId\": \"<string>\",\n  \"returnUrl\": \"<uri>\",\n  \"requestType\": \"idrx\",\n  \"expiryPeriod\": 120,\n  \"productDetails\": \"<string>\",\n  \"customerDetail\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"email\": \"<email>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 8533,\n  \"message\": \"string\",\n  \"data\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1c666b11-d16c-43f1-88bc-bd44ecc8fda1",
+              "name": "Unsupported channelId for merchant — contact support@idrx.co to enable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "mint-request"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"toBeMinted\": \"<string>\",\n  \"destinationWalletAddress\": \"<string>\",\n  \"networkChainId\": \"<string>\",\n  \"returnUrl\": \"<uri>\",\n  \"requestType\": \"idrx\",\n  \"expiryPeriod\": 120,\n  \"productDetails\": \"<string>\",\n  \"customerDetail\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"email\": \"<email>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 8533,\n  \"message\": \"string\",\n  \"data\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b1199010-eb24-4603-a1dc-f5db75797bd5",
+              "name": "Rate limit — back off and retry.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "mint-request"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"toBeMinted\": \"<string>\",\n  \"destinationWalletAddress\": \"<string>\",\n  \"networkChainId\": \"<string>\",\n  \"returnUrl\": \"<uri>\",\n  \"requestType\": \"idrx\",\n  \"expiryPeriod\": 120,\n  \"productDetails\": \"<string>\",\n  \"customerDetail\": {\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"email\": \"<email>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 8533,\n  \"message\": \"string\",\n  \"data\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "43652dc4-06fe-4d64-820c-0e5fe488e124",
+          "name": "Create a redeem request",
+          "request": {
+            "name": "Create a redeem request",
+            "description": {
+              "content": "Redeem IDRX back to fiat IDR to a bank account, referencing the on-chain burn transaction hash. Funds credited within max 24 hours.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "transaction",
+                "redeem-request"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"txHash\": \"<string>\",\n  \"networkChainId\": \"<string>\",\n  \"amountTransfer\": \"<string>\",\n  \"bankAccount\": \"<string>\",\n  \"bankCode\": \"<string>\",\n  \"bankName\": \"<string>\",\n  \"bankAccountName\": \"<string>\",\n  \"walletAddress\": \"<string>\",\n  \"notes\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8ed128c5-dbcd-4c1a-accd-0be8125e97c5",
+              "name": "Redeem request created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "redeem-request"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"txHash\": \"<string>\",\n  \"networkChainId\": \"<string>\",\n  \"amountTransfer\": \"<string>\",\n  \"bankAccount\": \"<string>\",\n  \"bankCode\": \"<string>\",\n  \"bankName\": \"<string>\",\n  \"bankAccountName\": \"<string>\",\n  \"walletAddress\": \"<string>\",\n  \"notes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 7751,\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 760,\n    \"chainId\": 3959,\n    \"userId\": 6140,\n    \"requester\": \"string\",\n    \"txHash\": \"string\",\n    \"fromAddress\": \"string\",\n    \"amount\": \"string\",\n    \"bankName\": \"string\",\n    \"bankCode\": \"string\",\n    \"bankAccountNumber\": \"string\",\n    \"bankAccountName\": \"string\",\n    \"custRefNumber\": \"string\",\n    \"disburseId\": 2673,\n    \"burnStatus\": \"REQUESTED\",\n    \"createdAt\": \"2025-08-10T02:40:20.313Z\",\n    \"updatedAt\": \"2018-12-06T11:01:02.484Z\",\n    \"deleted\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "318d34cc-229a-4126-b4a2-c01eff61b57d",
+              "name": "Invalid parameter — check param types and limits.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "redeem-request"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"txHash\": \"<string>\",\n  \"networkChainId\": \"<string>\",\n  \"amountTransfer\": \"<string>\",\n  \"bankAccount\": \"<string>\",\n  \"bankCode\": \"<string>\",\n  \"bankName\": \"<string>\",\n  \"bankAccountName\": \"<string>\",\n  \"walletAddress\": \"<string>\",\n  \"notes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 8533,\n  \"message\": \"string\",\n  \"data\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba341b96-0df7-41fe-ab7d-a940a5a702df",
+              "name": "Bad signature or timestamp drift — recompute signature and sync clock (NTP).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "redeem-request"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"txHash\": \"<string>\",\n  \"networkChainId\": \"<string>\",\n  \"amountTransfer\": \"<string>\",\n  \"bankAccount\": \"<string>\",\n  \"bankCode\": \"<string>\",\n  \"bankName\": \"<string>\",\n  \"bankAccountName\": \"<string>\",\n  \"walletAddress\": \"<string>\",\n  \"notes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 8533,\n  \"message\": \"string\",\n  \"data\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b2759532-ff8c-4dde-93e6-efe1616f4e52",
+          "name": "Create a bridge request",
+          "request": {
+            "name": "Create a bridge request",
+            "description": {
+              "content": "Bridge IDRX from a source chain to a destination chain, referencing the burn tx hash and bridge nonce. Min 20,000 IDR.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "transaction",
+                "bridge-request"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"txHashBurn\": \"<string>\",\n  \"bridgeToChainId\": \"<integer>\",\n  \"bridgeFromChainId\": \"<integer>\",\n  \"amount\": \"<string>\",\n  \"bridgeNonce\": \"<string>\",\n  \"destinationWalletAddress\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1369558e-a748-4ea3-ae7c-fd73a282ee18",
+              "name": "Bridge request created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "bridge-request"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"txHashBurn\": \"<string>\",\n  \"bridgeToChainId\": \"<integer>\",\n  \"bridgeFromChainId\": \"<integer>\",\n  \"amount\": \"<string>\",\n  \"bridgeNonce\": \"<string>\",\n  \"destinationWalletAddress\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 1699,\n  \"message\": \"string\",\n  \"data\": {\n    \"id\": 7390,\n    \"userId\": 342,\n    \"bridgeFromChainId\": 6954,\n    \"bridgeToChainId\": 4173,\n    \"txHashBurn\": \"string\",\n    \"txHashMint\": \"string\",\n    \"qredoTxId\": \"string\",\n    \"signedTx\": \"string\",\n    \"bridgeNonce\": \"string\",\n    \"amount\": \"string\",\n    \"bridgeStatus\": \"REJECTED\",\n    \"deleted\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5c226ee4-19fe-4eda-beb1-8ce3bc9a23a2",
+              "name": "Invalid parameter — check param types and limits.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "bridge-request"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"txHashBurn\": \"<string>\",\n  \"bridgeToChainId\": \"<integer>\",\n  \"bridgeFromChainId\": \"<integer>\",\n  \"amount\": \"<string>\",\n  \"bridgeNonce\": \"<string>\",\n  \"destinationWalletAddress\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 8533,\n  \"message\": \"string\",\n  \"data\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "beff8567-102e-4535-9471-3a36e0f0e12e",
+              "name": "Bad signature or timestamp drift — recompute signature and sync clock (NTP).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "bridge-request"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"txHashBurn\": \"<string>\",\n  \"bridgeToChainId\": \"<integer>\",\n  \"bridgeFromChainId\": \"<integer>\",\n  \"amount\": \"<string>\",\n  \"bridgeNonce\": \"<string>\",\n  \"destinationWalletAddress\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 8533,\n  \"message\": \"string\",\n  \"data\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1e9c920b-b2f9-49b6-86e7-0856a255cf59",
+          "name": "Get bank methods",
+          "request": {
+            "name": "Get bank methods",
+            "description": {
+              "content": "Get the list of supported bank names, bank codes, and max transfer amounts.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "transaction",
+                "method"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6a3b9922-22b3-475a-bad4-1f45ca35b660",
+              "name": "Bank method list.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "method"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 5051,\n  \"message\": \"string\",\n  \"data\": [\n    {\n      \"bankCode\": \"string\",\n      \"bankName\": \"string\",\n      \"maxAmountTransfer\": \"string\"\n    },\n    {\n      \"bankCode\": \"string\",\n      \"bankName\": \"string\",\n      \"maxAmountTransfer\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a8506271-63e6-42db-bde0-29a63106002d",
+              "name": "Bad signature or timestamp drift — recompute signature and sync clock (NTP).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "method"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 8533,\n  \"message\": \"string\",\n  \"data\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a9985d67-4971-4377-8709-30c247000998",
+          "name": "Get transaction history",
+          "request": {
+            "name": "Get transaction history",
+            "description": {
+              "content": "List the account's mint/redeem/bridge transaction history. Poll by merchantOrderId to reconcile terminal states.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "transaction",
+                "user-transaction-history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b74f8a46-7bd9-4e66-aa54-0d0a6a3d5d9c",
+              "name": "Transaction history.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "user-transaction-history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 6222,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "978c7fad-05ac-4ae6-a0d9-fe5c6ab2f180",
+              "name": "Bad signature or timestamp drift — recompute signature and sync clock (NTP).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "user-transaction-history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 8533,\n  \"message\": \"string\",\n  \"data\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "be551982-a1f7-44cd-a4c6-b40df7c88e78",
+          "name": "Get swap rates",
+          "request": {
+            "name": "Get swap rates",
+            "description": {
+              "content": "Get current swap rates of IDRX to other tokens. Provide either idrxAmount or usdtAmount. chainId defaults to 137 (Polygon).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "transaction",
+                "rates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "idrxAmount",
+                  "value": "<string>",
+                  "description": "IDRX amount to sell (provide this or usdtAmount)."
+                },
+                {
+                  "disabled": false,
+                  "key": "usdtAmount",
+                  "value": "<string>",
+                  "description": "USDT/USDC amount to sell (provide this or idrxAmount)."
+                },
+                {
+                  "disabled": false,
+                  "key": "chainId",
+                  "value": "137"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "462f8de8-2bc0-4137-9343-6607b806a803",
+              "name": "Rate quote.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "idrxAmount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "usdtAmount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "chainId",
+                      "value": "137"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 770,\n  \"message\": \"string\",\n  \"data\": {\n    \"price\": \"string\",\n    \"buyAmount\": \"string\",\n    \"chainId\": 6699,\n    \"quote\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa576e28-8c45-4a54-81b4-ca8483eb2a00",
+              "name": "Bad signature or timestamp drift — recompute signature and sync clock (NTP).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "rates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "idrxAmount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "usdtAmount",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "chainId",
+                      "value": "137"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 8533,\n  \"message\": \"string\",\n  \"data\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0162e7b5-ab51-4d8a-9201-80d0b201141b",
+          "name": "Get additional fees",
+          "request": {
+            "name": "Get additional fees",
+            "description": {
+              "content": "Get additional fees for a transaction type (MINT, REDEEM, REFUND) on a chain.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "transaction",
+                "get-additional-fees"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "feeType",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "chainId",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "065267ea-85b9-4399-a119-bb591509eb15",
+              "name": "Additional fee list.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "get-additional-fees"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "feeType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "chainId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 1297,\n  \"message\": \"string\",\n  \"data\": [\n    {\n      \"id\": 5719,\n      \"name\": \"string\",\n      \"amount\": \"string\",\n      \"isActive\": true,\n      \"deleted\": true\n    },\n    {\n      \"id\": 8562,\n      \"name\": \"string\",\n      \"amount\": \"string\",\n      \"isActive\": true,\n      \"deleted\": false\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6815034a-de71-46ec-af13-eb912127fc1b",
+              "name": "Bad signature or timestamp drift — recompute signature and sync clock (NTP).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "transaction",
+                    "get-additional-fees"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "feeType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "chainId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "idrx-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 8533,\n  \"message\": \"string\",\n  \"data\": null\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://idrx.co",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "idrx-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7f6bc305-ab80-46d2-a9dd-aa6c4252e9ae",
+    "name": "IDRX Onboarding Transaction API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "IDRX is a stablecoin pegged 1:1 to the Indonesian Rupiah (IDR). This REST API lets business (organization) accounts onboard users, manage bank accounts, and process mint (fiat IDR -> IDRX / USDT on-chain), redeem (IDRX -> fiat IDR to a bank account), and bridge (move IDRX across supported EVM/Solana chains) transactions, plus query rates, fees, bank methods, and transaction history. All requests are authenticated with an API key plus an HMAC-SHA256 request signature. A custom `User-Agent` header is required (generic agents are blocked at the edge with HTTP 403 / Cloudflare 1010).\n\nContact Support:\n Name: IDRX Support\n Email: support@idrx.co",
+      "type": "text/plain"
+    }
+  }
+}

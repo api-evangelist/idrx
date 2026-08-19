@@ -1,0 +1,133 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "IDRX Onboarding API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "idrx-api-key",
+      "value": "{{idrx-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Onboarding",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate an API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://idrx.co/api/auth/generate-api-key"
+          },
+          "docs": "Issue an API key/secret pair for an account. Store the secret securely; it is used to sign requests."
+        },
+        {
+          "info": {
+            "name": "Onboard a new user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://idrx.co/api/auth/onboarding",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "email",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "fullname",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "address",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "idNumber",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "idFile",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Used by an organization to onboard a new user. Accounts registered this way skip part of the KYC process. Accepts `multipart/form-data`."
+        },
+        {
+          "info": {
+            "name": "Get members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://idrx.co/api/auth/members"
+          },
+          "docs": "Get info about the members registered under the organization account."
+        },
+        {
+          "info": {
+            "name": "Add a bank account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://idrx.co/api/auth/add-bank-account",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a new bank account. A deposit wallet address associated with the bank account is also created; users can send IDRX to that address to redeem to the bank account."
+        },
+        {
+          "info": {
+            "name": "Get bank accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://idrx.co/api/auth/get-bank-accounts"
+          },
+          "docs": "List the bank accounts registered under the account."
+        },
+        {
+          "info": {
+            "name": "Delete a bank account",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://idrx.co/api/auth/delete-bank-account/:bankId",
+            "params": [
+              {
+                "name": "bankId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a bank account"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

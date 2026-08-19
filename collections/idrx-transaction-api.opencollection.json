@@ -1,0 +1,146 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "IDRX Onboarding Transaction API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "idrx-api-key",
+      "value": "{{idrx-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transaction",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a mint request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://idrx.co/api/transaction/mint-request",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Request an IDRX (or USDT) mint on a supported chain, paid with fiat IDR. Returns a hosted-checkout `paymentUrl` to redirect the user to. Min 20,000 IDR / 2 USD; max 1,000,000,000 IDR / 5,555 USD. Confirm settlement via the callback or Transaction History (do not trust the returnUrl redirect)."
+        },
+        {
+          "info": {
+            "name": "Create a redeem request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://idrx.co/api/transaction/redeem-request",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Redeem IDRX back to fiat IDR to a bank account, referencing the on-chain burn transaction hash. Funds credited within max 24 hours."
+        },
+        {
+          "info": {
+            "name": "Create a bridge request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://idrx.co/api/transaction/bridge-request",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Bridge IDRX from a source chain to a destination chain, referencing the burn tx hash and bridge nonce. Min 20,000 IDR."
+        },
+        {
+          "info": {
+            "name": "Get bank methods",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://idrx.co/api/transaction/method"
+          },
+          "docs": "Get the list of supported bank names, bank codes, and max transfer amounts."
+        },
+        {
+          "info": {
+            "name": "Get transaction history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://idrx.co/api/transaction/user-transaction-history"
+          },
+          "docs": "List the account's mint/redeem/bridge transaction history. Poll by merchantOrderId to reconcile terminal states."
+        },
+        {
+          "info": {
+            "name": "Get swap rates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://idrx.co/api/transaction/rates",
+            "params": [
+              {
+                "name": "idrxAmount",
+                "value": "",
+                "type": "query",
+                "description": "IDRX amount to sell (provide this or usdtAmount)."
+              },
+              {
+                "name": "usdtAmount",
+                "value": "",
+                "type": "query",
+                "description": "USDT/USDC amount to sell (provide this or idrxAmount)."
+              },
+              {
+                "name": "chainId",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get current swap rates of IDRX to other tokens. Provide either idrxAmount or usdtAmount. chainId defaults to 137 (Polygon)."
+        },
+        {
+          "info": {
+            "name": "Get additional fees",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://idrx.co/api/transaction/get-additional-fees",
+            "params": [
+              {
+                "name": "feeType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "chainId",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get additional fees for a transaction type (MINT, REDEEM, REFUND) on a chain."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
