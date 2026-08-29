@@ -1,0 +1,140 @@
+openapi: 3.2.0
+info:
+  title: IDRX API
+  version: '1.0'
+  description: IDRX is a stablecoin pegged 1:1 to the Indonesian Rupiah (IDR). This REST API lets business (organization) accounts onboard users, manage bank accounts, and process mint (fiat IDR -> IDRX / USDT on-chain), redeem (IDRX -> fiat IDR to a bank account), and bridge (move IDRX across supported EVM/Solana chains) transactions, plus query rates, fees, bank methods, and transaction history. All requests are authenticated with an API key plus an HMAC-SHA256 request signature. A custom `User-Agent` header is required (generic agents are blocked at the edge with HTTP 403 / Cloudflare 1010).
+  contact:
+    name: IDRX Support
+    email: support@idrx.co
+    url: https://docs.idrx.co
+  x-apievangelist-generated: '2026-07-19'
+  x-apievangelist-method: searched
+  x-apievangelist-source: https://docs.idrx.co/llms.txt
+servers:
+- url: https://idrx.co
+  description: Production
+security:
+- idrxApiKey: []
+tags:
+- name: IDRX API
+paths: {}
+webhooks:
+  mintCallback:
+    post:
+      operationId: mintCallback
+      summary: Mint transaction callback
+      description: Fires once when a mint transaction reaches a terminal state (adminMintStatus MINTED). Not retried. No signature on the outgoing webhook; reconcile by merchantOrderId and re-verify via Transaction History before crediting users.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MintCallback'
+      responses:
+        '200':
+          description: Return 2xx quickly and process asynchronously.
+      tags:
+      - IDRX API
+  redeemCallback:
+    post:
+      operationId: redeemCallback
+      summary: Redeem transaction callback
+      description: Fires once when a redeem transaction reaches a terminal state. Not retried; reconcile by merchantOrderId.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Return 2xx quickly and process asynchronously.
+      tags:
+      - IDRX API
+components:
+  schemas:
+    MintCallback:
+      type: object
+      properties:
+        id:
+          type: integer
+        paymentAmount:
+          type: number
+        toBeMinted:
+          type: string
+        merchantOrderId:
+          type: string
+        destinationWalletAddress:
+          type: string
+        chainId:
+          type: integer
+        paymentStatus:
+          type: string
+          enum:
+          - WAITING_FOR_PAYMENT
+          - PAID
+          - EXPIRED
+        userMintStatus:
+          type: string
+          enum:
+          - PROCESSING
+          - MINTED
+          - NOT_AVAILABLE
+        adminMintStatus:
+          type: string
+          enum:
+          - REQUESTED
+          - PROCESSING
+          - MINTED
+          - REJECTED
+        txHash:
+          type: string
+        reference:
+          type: string
+        requestType:
+          type:
+          - string
+          - 'null'
+        customerVaName:
+          type: string
+        paymentProviderId:
+          type: integer
+        returnUrl:
+          type:
+          - string
+          - 'null'
+        expiryTimestamp:
+          type: string
+        isApproved:
+          type: boolean
+        reportStatus:
+          type: string
+          enum:
+          - NONE
+          - PENDING
+          - RESOLVED
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        TransactionHistory:
+          type: object
+        MintRequestTransactionFees:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              amount:
+                type: string
+        usdtRequest:
+          type:
+          - object
+          - 'null'
+  securitySchemes:
+    idrxApiKey:
+      type: apiKey
+      in: header
+      name: idrx-api-key
+      description: API key issued by IDRX. Each request must also carry `idrx-api-sig` (an HMAC-SHA256 signature) and `idrx-api-ts` (Unix ms timestamp), plus a custom `User-Agent`. Signature = HMAC-SHA256(secret, METHOD + ":" + PATH + ":" + SHA256(body) + ":" + timestamp).

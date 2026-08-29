@@ -88,6 +88,16 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/idrx-transaction-api-openapi.yml
+- aid: idrx:idrx-idrx-api-api
+  name: IDRX IDRX API
+  description: The IDRX API API from IDRX — 0 operation(s) for idrx api.
+  humanURL: https://docs.idrx.co/api/getting-started
+  baseURL: https://idrx.co/api
+  tags:
+  - IDRX API
+  properties:
+  - type: OpenAPI
+    url: openapi/idrx-idrx-api-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

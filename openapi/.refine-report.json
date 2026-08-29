@@ -1,16 +1,25 @@
 {
   "provider": "idrx",
   "sources": [
-    "idrx-onboarding-api-openapi.yml",
-    "idrx-transaction-api-openapi.yml"
+    "_original/idrx-openapi.yml"
   ],
   "outputs": [
+    "idrx-idrx-api-api-openapi.yml",
     "idrx-onboarding-api-openapi.yml",
     "idrx-transaction-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "idrx-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "idrx-openapi.yml: tagged webhooks POST mintCallback -> IDRX API",
+    "idrx-openapi.yml: tagged webhooks POST redeemCallback -> IDRX API",
+    "idrx-openapi.yml: declared missing tag: IDRX API"
+  ],
+  "skipped": [
+    "idrx-onboarding-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "idrx-transaction-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
