@@ -105,6 +105,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Website
+  url: https://idrx.co/
 - type: Overlay
   url: overlays/idrx-openapi-overlay.yaml
 - type: DeveloperPortal
