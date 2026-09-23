@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: IDRX Onboarding API
   version: '1.0'
-  description: IDRX is a stablecoin pegged 1:1 to the Indonesian Rupiah (IDR). This REST API lets business (organization) accounts onboard users, manage bank accounts, and process mint (fiat IDR -> IDRX / USDT on-chain), redeem (IDRX -> fiat IDR to a bank account), and bridge (move IDRX across supported EVM/Solana chains) transactions, plus query rates, fees, bank methods, and transaction history. All requests are authenticated with an API key plus an HMAC-SHA256 request signature. A custom `User-Agent` header is required (generic agents are blocked at the edge with HTTP 403 / Cloudflare 1010).
+  description: IDRX is a stablecoin pegged 1:1 to the Indonesian Rupiah (IDR).
   contact:
     name: IDRX Support
     email: support@idrx.co
@@ -228,25 +228,6 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Forbidden:
-      description: Blocked User-Agent — set a custom User-Agent like my-app/1.0 (Cloudflare 1010).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Invalid parameter — check param types and limits.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Bad signature or timestamp drift — recompute signature and sync clock (NTP).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     BankAccountEnvelope:
       type: object
@@ -297,6 +278,25 @@ components:
           type: string
         data:
           type: 'null'
+  responses:
+    Unauthorized:
+      description: Bad signature or timestamp drift — recompute signature and sync clock (NTP).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Blocked User-Agent — set a custom User-Agent like my-app/1.0 (Cloudflare 1010).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid parameter — check param types and limits.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     idrxApiKey:
       type: apiKey

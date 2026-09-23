@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: IDRX API
   version: '1.0'
-  description: IDRX is a stablecoin pegged 1:1 to the Indonesian Rupiah (IDR). This REST API lets business (organization) accounts onboard users, manage bank accounts, and process mint (fiat IDR -> IDRX / USDT on-chain), redeem (IDRX -> fiat IDR to a bank account), and bridge (move IDRX across supported EVM/Solana chains) transactions, plus query rates, fees, bank methods, and transaction history. All requests are authenticated with an API key plus an HMAC-SHA256 request signature. A custom `User-Agent` header is required (generic agents are blocked at the edge with HTTP 403 / Cloudflare 1010).
+  description: IDRX is a stablecoin pegged 1:1 to the Indonesian Rupiah (IDR).
   contact:
     name: IDRX Support
     email: support@idrx.co

@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: IDRX Transaction API
   version: '1.0'
-  description: IDRX is a stablecoin pegged 1:1 to the Indonesian Rupiah (IDR). This REST API lets business (organization) accounts onboard users, manage bank accounts, and process mint (fiat IDR -> IDRX / USDT on-chain), redeem (IDRX -> fiat IDR to a bank account), and bridge (move IDRX across supported EVM/Solana chains) transactions, plus query rates, fees, bank methods, and transaction history. All requests are authenticated with an API key plus an HMAC-SHA256 request signature. A custom `User-Agent` header is required (generic agents are blocked at the edge with HTTP 403 / Cloudflare 1010).
+  description: IDRX is a stablecoin pegged 1:1 to the Indonesian Rupiah (IDR).
   contact:
     name: IDRX Support
     email: support@idrx.co
@@ -385,6 +385,24 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   responses:
+    RateLimited:
+      description: Rate limit — back off and retry.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unprocessable:
+      description: Unsupported channelId for merchant — contact support@idrx.co to enable.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Bad signature or timestamp drift — recompute signature and sync clock (NTP).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     Forbidden:
       description: Blocked User-Agent — set a custom User-Agent like my-app/1.0 (Cloudflare 1010).
       content:
@@ -397,63 +415,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Bad signature or timestamp drift — recompute signature and sync clock (NTP).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unprocessable:
-      description: Unsupported channelId for merchant — contact support@idrx.co to enable.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Rate limit — back off and retry.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    BridgeRequest:
-      type: object
-      properties:
-        id:
-          type: integer
-        userId:
-          type: integer
-        bridgeFromChainId:
-          type: integer
-        bridgeToChainId:
-          type: integer
-        txHashBurn:
-          type: string
-        txHashMint:
-          type:
-          - string
-          - 'null'
-        qredoTxId:
-          type:
-          - string
-          - 'null'
-        signedTx:
-          type:
-          - string
-          - 'null'
-        bridgeNonce:
-          type: string
-        amount:
-          type: string
-        bridgeStatus:
-          type: string
-          enum:
-          - REQUESTED
-          - PROCESSING
-          - PROCESSED
-          - REJECTED
-        deleted:
-          type: boolean
     RedeemRequest:
       type: object
       properties:
@@ -496,6 +458,44 @@ components:
         updatedAt:
           type: string
           format: date-time
+        deleted:
+          type: boolean
+    BridgeRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        bridgeFromChainId:
+          type: integer
+        bridgeToChainId:
+          type: integer
+        txHashBurn:
+          type: string
+        txHashMint:
+          type:
+          - string
+          - 'null'
+        qredoTxId:
+          type:
+          - string
+          - 'null'
+        signedTx:
+          type:
+          - string
+          - 'null'
+        bridgeNonce:
+          type: string
+        amount:
+          type: string
+        bridgeStatus:
+          type: string
+          enum:
+          - REQUESTED
+          - PROCESSING
+          - PROCESSED
+          - REJECTED
         deleted:
           type: boolean
     Error:
