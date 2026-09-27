@@ -228,16 +228,26 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    BadRequest:
+      description: Invalid parameter — check param types and limits.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Bad signature or timestamp drift — recompute signature and sync clock (NTP).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Blocked User-Agent — set a custom User-Agent like my-app/1.0 (Cloudflare 1010).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    BankAccountEnvelope:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-        message:
-          type: string
-        data:
-          $ref: '#/components/schemas/BankAccount'
     BankAccount:
       type: object
       properties:
@@ -278,25 +288,15 @@ components:
           type: string
         data:
           type: 'null'
-  responses:
-    Unauthorized:
-      description: Bad signature or timestamp drift — recompute signature and sync clock (NTP).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Blocked User-Agent — set a custom User-Agent like my-app/1.0 (Cloudflare 1010).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Invalid parameter — check param types and limits.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    BankAccountEnvelope:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/BankAccount'
   securitySchemes:
     idrxApiKey:
       type: apiKey

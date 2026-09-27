@@ -54,6 +54,7 @@ tags:
 - Web3
 - On-Ramp
 - Digital Currency
+- Stablecoin Issuance
 tags_raw:
 - Stablecoin
 - Cryptocurrency
@@ -65,6 +66,7 @@ tags_raw:
 - Web3
 - On-Ramp
 - Digital Currency
+- Stablecoin Issuance
 apis:
 - aid: idrx:idrx-onboarding-api
   name: IDRX Onboarding API
