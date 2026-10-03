@@ -228,25 +228,6 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    BadRequest:
-      description: Invalid parameter — check param types and limits.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Bad signature or timestamp drift — recompute signature and sync clock (NTP).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Blocked User-Agent — set a custom User-Agent like my-app/1.0 (Cloudflare 1010).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     BankAccount:
       type: object
@@ -279,15 +260,6 @@ components:
             createdAt:
               type: string
               format: date-time
-    Error:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-        message:
-          type: string
-        data:
-          type: 'null'
     BankAccountEnvelope:
       type: object
       properties:
@@ -297,6 +269,34 @@ components:
           type: string
         data:
           $ref: '#/components/schemas/BankAccount'
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+        data:
+          type: 'null'
+  responses:
+    BadRequest:
+      description: Invalid parameter — check param types and limits.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Bad signature or timestamp drift — recompute signature and sync clock (NTP).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Blocked User-Agent — set a custom User-Agent like my-app/1.0 (Cloudflare 1010).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     idrxApiKey:
       type: apiKey
