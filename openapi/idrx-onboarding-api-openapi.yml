@@ -229,6 +229,24 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+        data:
+          type: 'null'
+    BankAccountEnvelope:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+        data:
+          $ref: '#/components/schemas/BankAccount'
     BankAccount:
       type: object
       properties:
@@ -260,24 +278,6 @@ components:
             createdAt:
               type: string
               format: date-time
-    BankAccountEnvelope:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-        message:
-          type: string
-        data:
-          $ref: '#/components/schemas/BankAccount'
-    Error:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-        message:
-          type: string
-        data:
-          type: 'null'
   responses:
     BadRequest:
       description: Invalid parameter — check param types and limits.
