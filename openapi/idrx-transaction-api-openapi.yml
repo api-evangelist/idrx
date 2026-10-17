@@ -384,38 +384,51 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    RateLimited:
-      description: Rate limit — back off and retry.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unprocessable:
-      description: Unsupported channelId for merchant — contact support@idrx.co to enable.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Invalid parameter — check param types and limits.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Bad signature or timestamp drift — recompute signature and sync clock (NTP).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Blocked User-Agent — set a custom User-Agent like my-app/1.0 (Cloudflare 1010).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    RedeemRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        chainId:
+          type: integer
+        userId:
+          type: integer
+        requester:
+          type: string
+        txHash:
+          type: string
+        fromAddress:
+          type: string
+        amount:
+          type: string
+        bankName:
+          type: string
+        bankCode:
+          type: string
+        bankAccountNumber:
+          type: string
+        bankAccountName:
+          type: string
+        custRefNumber:
+          type: string
+        disburseId:
+          type: integer
+        burnStatus:
+          type: string
+          enum:
+          - REQUESTED
+          - PROCESSING
+          - PROCESSED
+          - REJECTED
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        deleted:
+          type: boolean
     Error:
       type: object
       properties:
@@ -463,50 +476,37 @@ components:
           - REJECTED
         deleted:
           type: boolean
-    RedeemRequest:
-      type: object
-      properties:
-        id:
-          type: integer
-        chainId:
-          type: integer
-        userId:
-          type: integer
-        requester:
-          type: string
-        txHash:
-          type: string
-        fromAddress:
-          type: string
-        amount:
-          type: string
-        bankName:
-          type: string
-        bankCode:
-          type: string
-        bankAccountNumber:
-          type: string
-        bankAccountName:
-          type: string
-        custRefNumber:
-          type: string
-        disburseId:
-          type: integer
-        burnStatus:
-          type: string
-          enum:
-          - REQUESTED
-          - PROCESSING
-          - PROCESSED
-          - REJECTED
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-        deleted:
-          type: boolean
+  responses:
+    Unprocessable:
+      description: Unsupported channelId for merchant — contact support@idrx.co to enable.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Blocked User-Agent — set a custom User-Agent like my-app/1.0 (Cloudflare 1010).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid parameter — check param types and limits.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Bad signature or timestamp drift — recompute signature and sync clock (NTP).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Rate limit — back off and retry.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     idrxApiKey:
       type: apiKey

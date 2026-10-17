@@ -229,15 +229,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-        message:
-          type: string
-        data:
-          type: 'null'
     BankAccountEnvelope:
       type: object
       properties:
@@ -247,6 +238,15 @@ components:
           type: string
         data:
           $ref: '#/components/schemas/BankAccount'
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+        data:
+          type: 'null'
     BankAccount:
       type: object
       properties:
@@ -279,6 +279,12 @@ components:
               type: string
               format: date-time
   responses:
+    Forbidden:
+      description: Blocked User-Agent — set a custom User-Agent like my-app/1.0 (Cloudflare 1010).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     BadRequest:
       description: Invalid parameter — check param types and limits.
       content:
@@ -287,12 +293,6 @@ components:
             $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Bad signature or timestamp drift — recompute signature and sync clock (NTP).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Blocked User-Agent — set a custom User-Agent like my-app/1.0 (Cloudflare 1010).
       content:
         application/json:
           schema:
